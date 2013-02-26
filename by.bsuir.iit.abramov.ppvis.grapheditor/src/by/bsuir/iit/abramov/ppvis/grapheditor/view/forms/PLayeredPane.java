@@ -1,33 +1,32 @@
 package by.bsuir.iit.abramov.ppvis.grapheditor.view.forms;
 
-import java.awt.Component;
+import java.util.Iterator;
+import java.util.List;
 import java.awt.Rectangle;
 import java.util.ArrayList;
-import java.util.List;
 
+import javax.swing.JPanel;
 import javax.swing.JComboBox;
 import javax.swing.JLayeredPane;
-import javax.swing.JPanel;
 
 import by.bsuir.iit.abramov.ppvis.grapheditor.view.components.PLine;
 import by.bsuir.iit.abramov.ppvis.grapheditor.view.components.PNode;
 import by.bsuir.iit.abramov.ppvis.grapheditor.view.listeners.FormListener;
-import by.bsuir.iit.abramov.ppvis.grapheditor.view.listeners.NodeListener;
-import by.bsuir.iit.abramov.ppvis.grapheditor.view.listeners.NodeListener2;
 
 
 
 public class PLayeredPane  extends JLayeredPane{
-	private List<PNode> allNodes;
-	private List<PNode> selectedNodes;
-	private List<PLine> allLines;
-	private List<PLine> selectedLines;
-	private PLine currLine = null;
-	final private int ID;
-	private int editMode = 0;
-	private JPanel panel;
 	private static final int NODE = 100;
 	private static final int LINE = 50;
+	private List<PNode> selectedNodes;
+	private List<PLine> selectedLines;
+	private List<PNode> allNodes;
+	private List<PLine> allLines;
+	private PLine currLine = null;
+	private int editMode = 0;
+	private final int ID;
+	private JPanel panel;
+	
 	
 	
 	public PLayeredPane(int id, JPanel pan)
@@ -126,35 +125,40 @@ public class PLayeredPane  extends JLayeredPane{
 	
 	public void deleteSelectedItems()
 	{
-		while(selectedLines.size() != 0)
+		Iterator<PLine> iterator = selectedLines.iterator();
+		while(iterator.hasNext())
 		{
-			PLine line = selectedLines.get(0);
+			PLine line = iterator.next();
 			Rectangle rect = line.getBounds();
 			line.disconnect();
 			remove(line);
 			repaint(rect);
 			allLines.remove(line);
-			selectedLines.remove(line);
+			iterator.remove();
 		}
-		while(selectedNodes.size() != 0)
+		Iterator<PNode> iteratorNode = selectedNodes.iterator();
+		while(iteratorNode.hasNext())
 		{
-			PNode node = selectedNodes.get(0);
+			System.out.println(selectedNodes.size());
+			PNode node = iteratorNode.next();
 			Rectangle rect = node.getBounds();
 			node.deleteLines();
 			remove(node);
 			repaint(rect);
 			allNodes.remove(node);
-			selectedNodes.remove(node);
+			iteratorNode.remove();
 		}
 	}
 	
-	public void unselectAll()
+	public void moveNotSelectedNodes(int aX, int aY)
 	{
-		System.out.println("LayeredPane + " + getID() +": unselectAll");
-		while(selectedNodes.size() != 0)
+		System.out.println("PLayeredPane: moveNotSelectedNodes(" + aX + ", " + aY + ")");
+		for (PNode currNode : allNodes)
 		{
-			selectedNodes.get(0).unselect();
-			selectedNodes.remove(0);
+			if (!currNode.isSelected())
+			{
+				currNode.setLocation(currNode.getX() + aX, currNode.getY() + aY);
+			}
 		}
 	}
 	
@@ -185,15 +189,29 @@ public class PLayeredPane  extends JLayeredPane{
 			}		
 	}
 	
-	public void moveNotSelectedNodes(int aX, int aY)
+	public void removeLine(PLine line)
 	{
-		System.out.println("PLayeredPane: moveNotSelectedNodes(" + aX + ", " + aY + ")");
-		for (PNode currNode : allNodes)
+		Rectangle rect = line.getBounds();
+		selectedLines.remove(line);
+		allLines.remove(line);
+		remove(line);
+		repaint(rect);
+	}
+	
+	public void unselectAll()
+	{
+		System.out.println("LayeredPane + " + getID() +": unselectAll");
+		Iterator<PLine> itrLine = selectedLines.iterator();  
+		while(itrLine.hasNext())
 		{
-			if (!currNode.isSelected())
-			{
-				currNode.setLocation(currNode.getX() + aX, currNode.getY() + aY);
-			}
+			itrLine.next().unselect();
+			itrLine.remove();
+		}
+		Iterator<PNode> itrNode = selectedNodes.iterator();
+		while(itrNode.hasNext())
+		{
+			itrNode.next().unselect();
+			itrNode.remove();
 		}
 	}
 	
@@ -208,14 +226,5 @@ public class PLayeredPane  extends JLayeredPane{
 		{
 			combobox.addItem(i);
 		}
-	}
-	
-	public void removeLine(PLine line)
-	{
-		Rectangle rect = line.getBounds();
-		selectedLines.remove(line);
-		allLines.remove(line);
-		remove(line);
-		repaint(rect);
 	}
 }

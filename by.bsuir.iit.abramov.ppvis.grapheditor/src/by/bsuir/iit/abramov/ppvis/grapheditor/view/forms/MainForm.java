@@ -1,56 +1,32 @@
 package by.bsuir.iit.abramov.ppvis.grapheditor.view.forms;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.EventQueue;
-import java.awt.Rectangle;
-
+import javax.swing.JMenu;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import java.awt.FlowLayout;
-
-import javax.swing.JScrollBar;
 import javax.swing.JToolBar;
-import javax.swing.JLayeredPane;
+import javax.swing.JMenuItem;
+import javax.swing.JComboBox;
+import javax.swing.JTabbedPane;
 import javax.swing.SwingConstants;
-import javax.swing.BoxLayout;
-import java.awt.Component;
-import javax.swing.JButton;
-import javax.swing.KeyStroke;
-import java.awt.event.KeyEvent;
-import java.awt.event.InputEvent;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
-import javax.swing.border.EtchedBorder;
 
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
-import java.awt.event.ContainerEvent;
-import java.awt.event.ContainerListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
-import java.awt.event.WindowListener;
 import java.awt.event.WindowStateListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.HierarchyBoundsAdapter;
-import java.awt.event.HierarchyEvent;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.WindowEvent;
 import java.awt.event.ActionEvent;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+import java.awt.BorderLayout;
 import java.util.ArrayList;
+import java.awt.EventQueue;
+import java.awt.Rectangle;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.swing.JTabbedPane;
 
-import javax.swing.JScrollPane;
-import javax.swing.JComboBox;
 
 import by.bsuir.iit.abramov.ppvis.grapheditor.util.Factory;
 import by.bsuir.iit.abramov.ppvis.grapheditor.view.listeners.NewTabListener;
@@ -58,8 +34,7 @@ import by.bsuir.iit.abramov.ppvis.grapheditor.view.listeners.ToolButtonsKeyListe
 
 public class MainForm extends JFrame {
 
-	private static List<PLayeredPane> layeredPanes; 
-	private static int currentPage = 0;
+	private static List<PLayeredPane> layeredPanes;
 	private static JTabbedPane tabbedPane;
 	private Map<Menu,JMenu> menuMap;
 	private Map<MenuItems, JMenuItem> menuItems;
@@ -152,7 +127,8 @@ public class MainForm extends JFrame {
 		toolBar.setFloatable(false);
 		toolBar.setOrientation(SwingConstants.VERTICAL);
 		toolPanel.add(toolBar);
-		
+		//</ToolPanel>
+		//<TabbedPane>
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.setFocusable(false);
 		workPanel.add(tabbedPane, BorderLayout.CENTER);
@@ -186,18 +162,21 @@ public class MainForm extends JFrame {
 				layeredPanes.get(tabbedPane.getSelectedIndex()).writeToComboBox(comboBox);
 			}
 		}, null, toolBar);
-		//</ToolPanel>
+		//</TabbedPane>
 	}
 	
 	//set
 	
 	//get
 	
-	public static JTabbedPane getTabbedPane()
-	{
+	public static List<PLayeredPane> getLayeredPanes() {
+		return layeredPanes;
+	}
+
+	public static JTabbedPane getTabbedPane() {
 		return tabbedPane;
 	}
-	
+
 	public static int getIndexCurrentPage()
 	{
 		return tabbedPane.getSelectedIndex();

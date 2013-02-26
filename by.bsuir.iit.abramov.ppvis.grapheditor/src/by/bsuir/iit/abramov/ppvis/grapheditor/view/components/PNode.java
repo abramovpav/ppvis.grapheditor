@@ -37,7 +37,6 @@ public class PNode extends JComponent {
 		layeredPane = pane;
 		layeredPane.addNode(this);
 		lines = new ArrayList<PLine>();
-		//MainForm.addComponent(this);
 	}
 	
 	//add
@@ -57,16 +56,14 @@ public class PNode extends JComponent {
 	public void deleteLines()
 	{
 		Rectangle rec;
-//		Iterator<PLine> iterator = lines.iterator();
-//		while(iterator.hasNext()){
-//			PLine next = iterator.next();
-//		}
-		while(lines.size() != 0)
+		Iterator<PLine> iterator = lines.iterator();
+		while(iterator.hasNext())
 		{
-			rec = lines.get(0).getBounds();
-			layeredPane.removeLine(lines.get(0));
-			lines.get(0).deleteOtherNode(this);
-			lines.remove(0);
+			PLine next = iterator.next();
+			rec = next.getBounds();
+			layeredPane.removeLine(next);
+			next.deleteOtherNode(this);
+			iterator.remove();
 			layeredPane.repaint(rec);
 		}
 	}
@@ -75,12 +72,6 @@ public class PNode extends JComponent {
 	{
 		return layeredPane;
 	}
-	
-	/*
-	public int getLinesCount()
-	{
-		return lines.size();
-	}*/
 	
 	public static int getBoundsSize()
 	{
@@ -182,9 +173,6 @@ public class PNode extends JComponent {
 		return selected;
 	}
 	
-	
-	//system
-	
 	@Override
 	public void paintComponent(Graphics gr)
 	{
@@ -197,6 +185,10 @@ public class PNode extends JComponent {
 		g2d.fillOval(0, 0, diam, diam);
 		g2d.setColor(Color.WHITE);
 		g2d.fillOval((getWidth() - 2 * r1) / 2 , (getHeight() - 2 * r1) / 2, r1 * 2, r1 * 2);
+		for (PLine line : lines)
+		{
+			line.updateBounds();
+		}
 	}
 	
 	@Override

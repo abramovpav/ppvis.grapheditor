@@ -63,7 +63,6 @@ public class NodeListener extends MouseAdapter{
 	@Override
 	public void mouseDragged(MouseEvent arg0)
 	{
-		System.out.println("NodeListener: " + arg0.getXOnScreen() + " " + arg0.getYOnScreen());
 		System.out.println("NodeListener: mouseDragged(mode = " + arg0.getModifiers() + ")");
 		PNode node = (PNode)arg0.getSource();
 		if (arg0.getModifiers() == 16 || arg0.getModifiers() == 18)

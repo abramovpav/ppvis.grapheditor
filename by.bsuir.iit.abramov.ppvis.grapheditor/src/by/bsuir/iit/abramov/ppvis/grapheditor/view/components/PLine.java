@@ -132,9 +132,7 @@ public class PLine extends JComponent{
 		}
 		int width = Math.abs(begX - endX), height = Math.abs(begY - endY);
 		int k = PNode.getBoundsSize() / 2;
-		int x1, y1; 
-		x1 = y1 = k;
-		int x2 = width, y2 = height;
+		int x1 = k, y1 = k, x2 = width, y2 = height;
 		if (begX > endX)
 		{
 			x1 += width;
@@ -142,67 +140,50 @@ public class PLine extends JComponent{
 		}
 		if (begY > endY)
 		{
-			y1  += height;
+			y1 += height;
 			y2 -= height;
 		}
-		setBounds(Math.min(begX, endX), Math.min(begY, endY), Math.max(begX, endX) + k, Math.max(begY, endY) + k);
-		System.out.println("PLine getBounds():" + getBounds());
 		g2d.drawLine(x1, y1, x2 + k, y2 + k);
-		polygon.reset();
-		if (x1-x2-k != 0)
+		if (x1 - x2 - k != 0)
 		{
 			double alpha = (double)Math.atan((double)(y1-y2-k)/(double)(x1-x2-k));
-			System.out.println("alpha = " + Math.abs(y1-y2-k) + " /" + Math.abs(x1-x2-k) + " = " + alpha);
-			int km = (int)Math.sin(alpha), cm = (int)Math.cos(alpha);
-			//System.out.println(km + " " + cm);
 			if (alpha < 0.644 && alpha > -0.644)
 			{
-				System.out.println("3");
-				polygon.addPoint(x1, y1 -1);
-				polygon.addPoint(x2 + k, y2 + k - 1);
-				polygon.addPoint(x2 + k, y2 + k + 1);
-				polygon.addPoint(x1, y1 + 1);
+				polygonUpdate(x1, y1 -1, x2 + k, y2 + k - 1, x2 + k, y2 + k + 1, x1, y1 + 1);
 			}
 			else
 				if (alpha < 1.03 && alpha > 0.644)
 				{
-					System.out.println("4");
-					polygon.addPoint(x1 + 1, y1 - 1);
-					polygon.addPoint(x2 + k + 1, y2 + k - 1);
-					polygon.addPoint(x2 + k - 1, y2 + k + 1);
-					polygon.addPoint(x1 - 1, y1 + 1);
+					polygonUpdate(x1 + 1, y1 - 1, x2 + k + 1, y2 + k - 1, x2 + k - 1, y2 + k + 1, x1 - 1, y1 + 1);
 				}
 				else
 					if (alpha < -0.644 && alpha > -1.03)
 					{
-						System.out.println("2");
-						polygon.addPoint(x1 - 1, y1 - 1);
-						polygon.addPoint(x1 + 1, y1 + 1);
-						polygon.addPoint(x2 + k + 1, y2 + k + 1);
-						polygon.addPoint(x2 + k - 1, y2 + k - 1);
+						polygonUpdate(x1 - 1, y1 - 1, x1 + 1, y1 + 1, x2 + k + 1, y2 + k + 1, x2 + k - 1, y2 + k - 1);
 					}
 					else
 					{
-						System.out.println("1");
-						polygon.addPoint(x1 - 1, y1);
-						polygon.addPoint(x1 + 1, y1);
-						polygon.addPoint(x2 + k + 1, y2 + k);
-						polygon.addPoint(x2 + k - 1, y2 + k + 1);
+						polygonUpdate(x1 - 1, y1, x1 + 1, y1, x2 + k + 1, y2 + k, x2 + k - 1, y2 + k + 1);
 					}
 		}
 		else
 		{
-			System.out.println("1");
-			polygon.addPoint(x1 - 1, y1);
-			polygon.addPoint(x1 + 1, y1);
-			polygon.addPoint(x2 + k + 1, y2 + k);
-			polygon.addPoint(x2 + k - 1, y2 + k + 1);
+			polygonUpdate(x1 - 1, y1, x1 + 1, y1, x2 + k + 1, y2 + k, x2 + k - 1, y2 + k + 1);
 		}
 	}
 	
 	@Override
 	public boolean contains(int x, int y) {
 		return polygon.contains(x, y);
+	}
+	
+	private void polygonUpdate(int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4)
+	{
+		polygon.reset();
+		polygon.addPoint(x1, y1);
+		polygon.addPoint(x2, y2);
+		polygon.addPoint(x3, y3);
+		polygon.addPoint(x4, y4);
 	}
 
 }
