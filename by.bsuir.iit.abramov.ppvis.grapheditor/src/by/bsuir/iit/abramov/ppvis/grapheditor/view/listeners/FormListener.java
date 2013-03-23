@@ -30,12 +30,12 @@ public class FormListener extends MouseAdapter{
 	@Override
 	public void mouseMoved(MouseEvent arg0)
 	{
-		PLayeredPane layeredPane = (PLayeredPane)arg0.getSource();
+		/*PLayeredPane layeredPane = (PLayeredPane)arg0.getSource();
 		if (layeredPane.getEditMode() == 1)
 			if (layeredPane.getCurrentLine() != null)
 			{
 				System.out.println("FormListener: mouseMoved");
 				layeredPane.getCurrentLine().setEndCoord(arg0.getX() - PNode.getBoundsSize() / 2, arg0.getY() - PNode.getBoundsSize() / 2);
-			}
+			}*/
 	}
 }

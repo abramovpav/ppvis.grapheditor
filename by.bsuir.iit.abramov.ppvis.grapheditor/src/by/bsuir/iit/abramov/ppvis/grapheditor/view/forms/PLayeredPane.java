@@ -158,8 +158,14 @@ public class PLayeredPane  extends JLayeredPane{
 			if (!currNode.isSelected())
 			{
 				currNode.setLocation(currNode.getX() + aX, currNode.getY() + aY);
+				currNode.linesUpdateBounds();
 			}
 		}
+	}
+	
+	public void unselectNode(PNode node)
+	{
+		selectedNodes.remove(node);
 	}
 	
 	public void moveSelectedNodes(int aX, int aY)

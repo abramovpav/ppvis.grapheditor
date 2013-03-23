@@ -95,6 +95,7 @@ public class PLine extends JComponent{
 			node.addLine(this);
 			node.getLayeredPane().setCurrentLine(null);
 			begNode.unselect();
+			updateBounds();
 			repaint();
 		}
 	}
@@ -120,9 +121,10 @@ public class PLine extends JComponent{
 	
 	@Override
 	public void paintComponent(Graphics g) { 
+		System.out.println("paint");
 		Graphics2D g2d = (Graphics2D)g; 
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-		g2d.setStroke(new BasicStroke(2));
+		g2d.setStroke(new BasicStroke(4));
 		g2d.setColor(color);
 		int begX = begNode.getX(), begY = begNode.getY();
 		if (endNode != null)
@@ -130,8 +132,9 @@ public class PLine extends JComponent{
 			endX = endNode.getX();
 			endY = endNode.getY();
 		}
-		int width = Math.abs(begX - endX), height = Math.abs(begY - endY);
 		int k = PNode.getBoundsSize() / 2;
+		int width = Math.abs(begX - endX), height = Math.abs(begY - endY);
+		
 		int x1 = k, y1 = k, x2 = width, y2 = height;
 		if (begX > endX)
 		{

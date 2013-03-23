@@ -108,7 +108,7 @@ public class PNode extends JComponent {
 	{
 		selected = true;
 		setColor(Color.RED);
-		getLayeredPane().setComponentZOrder(this, 0);
+		layeredPane.setComponentZOrder(this, 0);
 		repaint();
 	}
 	
@@ -176,6 +176,7 @@ public class PNode extends JComponent {
 	@Override
 	public void paintComponent(Graphics gr)
 	{
+		System.out.println("paintN");
 		int diam = getWidth();
 		int r2 = diam / 2;
 		int r1 = (n * r2)/d;
@@ -185,6 +186,10 @@ public class PNode extends JComponent {
 		g2d.fillOval(0, 0, diam, diam);
 		g2d.setColor(Color.WHITE);
 		g2d.fillOval((getWidth() - 2 * r1) / 2 , (getHeight() - 2 * r1) / 2, r1 * 2, r1 * 2);
+	}
+	
+	public void linesUpdateBounds()
+	{
 		for (PLine line : lines)
 		{
 			line.updateBounds();

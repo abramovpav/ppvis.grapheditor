@@ -19,8 +19,18 @@ public class NodeListener extends MouseAdapter{
 			{
 				System.out.println("NodeListener: mouseClicked");
 				if (!arg0.isControlDown())
+				{
 					node.getLayeredPane().unselectAll();
-				node.select();
+					node.select();
+				}
+				else
+					if (node.isSelected())
+					{
+						node.unselect();
+						node.getLayeredPane().unselectNode(node);
+					}
+					else
+						node.select();
 			}
 		}
 	}
@@ -76,6 +86,7 @@ public class NodeListener extends MouseAdapter{
 				
 				System.out.println("\tmoveTo(" + (arg0.getX() - node.getMouseX()) + "," + (arg0.getY() - node.getMouseY()) + ")");
 				node.getLayeredPane().moveSelectedNodes(arg0.getX() - node.getMouseX(), arg0.getY() - node.getMouseY());
+				node.linesUpdateBounds();
 			}
 		}
 		

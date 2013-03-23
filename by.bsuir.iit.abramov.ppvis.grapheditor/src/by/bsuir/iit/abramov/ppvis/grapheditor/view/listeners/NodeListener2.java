@@ -59,13 +59,13 @@ public class NodeListener2 extends MouseAdapter{
 	}
 	@Override
 	public void mouseMoved(MouseEvent arg0)
-	{
+	{/*
 		PNode node = (PNode)arg0.getSource();
 		if (node.getLayeredPane().getEditMode() == 1)
 			if (node.getLayeredPane().getCurrentLine() != null)
 			{
 				System.out.println("FormListener: mouseMoved");
 				node.getLayeredPane().getCurrentLine().setEndCoord(node.getX() + arg0.getX() - PNode.getBoundsSize() / 2, node.getY() + arg0.getY() - PNode.getBoundsSize() / 2);
-			}
+			}*/
 	}
 }
